@@ -22,7 +22,7 @@ export default createStore({
     getters: {
         currentProject (state) {
             if (!state.currentProjectId) {
-                return state.projects[0];
+                return state.tmp[0];
             }
             // todo: change tmp to productive
             return state.tmp.find((project) => {

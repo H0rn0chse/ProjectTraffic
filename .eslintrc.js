@@ -22,5 +22,6 @@ module.exports = {
         "arrow-body-style": "off",
         semi: ["warn", "always"],
         "no-warning-comments": "warn",
+        "no-unused-vars": "warn",
     },
 };

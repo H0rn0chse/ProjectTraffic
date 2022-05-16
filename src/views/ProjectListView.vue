@@ -61,7 +61,7 @@ export default defineComponent({
         },
         openProject (id) {
             this.setCurrentProject(id);
-            this.$router.push("/project");
+            this.$router.push(`/project/${id}`);
         }
     }
 });
