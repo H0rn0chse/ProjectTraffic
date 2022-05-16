@@ -7,5 +7,12 @@ module.exports = defineConfig({
         vuetify: {
             // https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vuetify-loader
         },
+    },
+    pages: {
+        index: {
+            // entry for the page
+            entry: "src/main.js",
+            title: "ProjectTraffic",
+        },
     }
 });

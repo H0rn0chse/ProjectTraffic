@@ -1,12 +1,9 @@
 <template>
     <v-container>
-        <v-row
-            class="text-center"
-            justify="center"
-        >
+        <v-row class="text-center" justify="center">
             <v-col>
                 <h1 class="display-2 font-weight-bold mb-3">
-                    Project Traffic Summuary
+                    Login
                 </h1>
             </v-col>
         </v-row>
@@ -17,6 +14,6 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-    name: "HomeView"
+    name: "LoginView",
 });
 </script>
