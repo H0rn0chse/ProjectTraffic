@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <nav-bar/>
+        <nav-side-bar/>
         <v-main>
             <router-view/>
         </v-main>
@@ -9,7 +9,7 @@
 
 <script>
 
-import NavBar from "./components/NavBar.vue";
+import NavSideBar from "./components/NavSideBar.vue";
 
 export default {
     name: "App",
@@ -19,7 +19,7 @@ export default {
     }),
 
     components: {
-        NavBar,
+        NavSideBar,
     },
 };
 </script>

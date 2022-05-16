@@ -19,5 +19,7 @@ module.exports = {
         "comma-dangle": "off",
         "max-len": "off",
         "func-names": "off",
+        "arrow-body-style": "off",
+        semi: ["warn", "always"],
     },
 };
