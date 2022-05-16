@@ -9,7 +9,7 @@ const items = new Array(20).fill(0).map((val, index) => {
 
 export default createStore({
     state: {
-        currentProjectId: "0001",
+        currentProjectId: null,
         projects: [{
             id: "0001",
             name: "Lorem Ipsum"

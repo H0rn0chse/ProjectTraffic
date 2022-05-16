@@ -20,6 +20,8 @@
                     :key="i"
                     :title="item.name"
                     width="200px"
+                    tabindex="0"
+                    @keyup.enter="openProject(item.id)"
                     @click="openProject(item.id)"
                     contained-text
                 >
@@ -27,6 +29,8 @@
                 <v-card
                     class="ma-3 justify-center align-center d-flex"
                     width="200px"
+                    tabindex="0"
+                    @keyup.enter="addProject"
                     @click="addProject"
                     contained-text
                 >

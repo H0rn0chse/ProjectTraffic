@@ -4,16 +4,21 @@
             <v-row
                 align="center"
                 class="mb-2"
-                @click="navBack"
             >
                 <v-icon
                     :style="{ cursor: 'pointer' }"
                     icon="mdi-chevron-left"
                     title="Back to Projects"
+                    tabindex="0"
+                    @keyup.enter="navBack"
+                    @click="navBack"
                 ></v-icon>
                 <h1
                     class="display-2 font-weight-bold"
                     :style="{ cursor: 'pointer' }"
+                    tabindex="0"
+                    @keyup.enter="navBack"
+                    @click="navBack"
                 >
                     {{currentProject.name}}
                 </h1>
