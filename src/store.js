@@ -6,10 +6,10 @@ const items = new Array(20).fill(0).map((val, index) => {
         name: `Card No${index}`
     };
 });
-console.log(items);
 
 export default createStore({
     state: {
+        currentProjectId: "0001",
         projects: [{
             id: "0001",
             name: "Lorem Ipsum"
@@ -20,10 +20,25 @@ export default createStore({
         tmp: items
     },
     getters: {
+        currentProject (state) {
+            if (!state.currentProjectId) {
+                return state.projects[0];
+            }
+            // todo: change tmp to productive
+            return state.tmp.find((project) => {
+                return project.id === state.currentProjectId;
+            });
+        }
     },
     mutations: {
+        setCurrentProject (state, projectId) {
+            state.currentProjectId = projectId;
+        },
     },
     actions: {
+        setCurrentProject (context, projectId) {
+            context.commit("setCurrentProject", projectId);
+        },
     },
     modules: {
     },

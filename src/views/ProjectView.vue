@@ -1,61 +1,39 @@
 <template>
     <v-container>
-        <v-row
-            class="text-center"
-            justify="center"
-        >
-            <v-col>
-                <h1 class="display-2 font-weight-bold mb-3">
-                    Projects
+        <v-col>
+            <v-row
+                align="center"
+                class="mb-2"
+                @click="navBack"
+            >
+                <v-icon
+                    :style="{ cursor: 'pointer' }"
+                    icon="mdi-chevron-left"
+                    title="Back to Projects"
+                ></v-icon>
+                <h1
+                    class="display-2 font-weight-bold"
+                    :style="{ cursor: 'pointer' }"
+                >
+                    {{currentProject.name}}
                 </h1>
-            </v-col>
-        </v-row>
-        <v-row
-            class="text-center d.flex-row"
-            justify="center"
-        >
-                <v-card
-                    class="ma-3"
-                    v-for="(item, i) in items"
-                    :key="i"
-                    :title="item.name"
-                    width="200px"
-                    @click="openProject(item.id)"
-                    contained-text
-                >
-                </v-card>
-                <v-card
-                    class="ma-3 justify-center align-center d-flex"
-                    width="200px"
-                    @click="addProject"
-                    contained-text
-                >
-                    <v-icon
-                        title="Add Project"
-                        icon="mdi-plus"
-                    ></v-icon>
-                </v-card>
-        </v-row>
+            </v-row>
+        </v-col>
     </v-container>
 </template>
 
 <script>
 import { defineComponent } from "vue";
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 
 export default defineComponent({
     name: "ProjectView",
     computed: {
-        ...mapState({
-            items: "tmp"
-        })
+        ...mapGetters(["currentProject"])
     },
     methods: {
-        addProject () {
-            alert("Add Project");
-        },
-        openProject (id) {
-            alert(`Open Project${id}`);
+        navBack () {
+            this.$router.push("/projects");
         }
     }
 });

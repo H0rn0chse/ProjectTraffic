@@ -21,5 +21,6 @@ module.exports = {
         "func-names": "off",
         "arrow-body-style": "off",
         semi: ["warn", "always"],
+        "no-warning-comments": "warn",
     },
 };
