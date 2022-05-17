@@ -26,43 +26,45 @@
                     contained-text
                 >
                 </v-card>
-                <v-card
-                    class="ma-3 justify-center align-center d-flex"
-                    width="200px"
-                    tabindex="0"
-                    @keyup.enter="addProject"
-                    @click="addProject"
-                    contained-text
-                >
-                    <v-icon
-                        title="Add Project"
-                        icon="mdi-plus"
-                    ></v-icon>
-                </v-card>
+                <add-project-card
+                    @save="addProjectAndNavigate"
+                ></add-project-card>
         </v-row>
     </v-container>
 </template>
 
 <script>
 import { defineComponent } from "vue";
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
+
+import AddProjectCard from "../components/AddProjectCard.vue";
 
 export default defineComponent({
     name: "ProjectListView",
     computed: {
         ...mapState({
             items: "projects"
-        })
+        }),
+        ...mapGetters([
+            "latestProject"
+        ]),
     },
     methods: {
-        ...mapActions(["setCurrentProject"]),
-        addProject () {
-            alert("Add Project");
+        ...mapActions([
+            "setCurrentProject",
+            "addProject",
+        ]),
+        addProjectAndNavigate (evt) {
+            this.addProject(evt);
+            this.openProject(this.latestProject);
         },
         openProject (id) {
             this.setCurrentProject(id);
             this.$router.push(`/project/${id}`);
         }
+    },
+    components: {
+        AddProjectCard,
     }
 });
 </script>

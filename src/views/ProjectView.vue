@@ -1,72 +1,87 @@
 <template>
-    <v-container class="d-flex flex-column">
-        <div class="d-flex flex-row align-center mb-2">
-            <v-icon
-                :style="{ cursor: 'pointer' }"
-                icon="mdi-chevron-left"
-                title="Back to Projects"
-                tabindex="0"
-                @keyup.enter="navBack"
-                @click="navBack"
-            ></v-icon>
-            <h1
-                class="display-2 font-weight-bold"
-                :style="{ cursor: 'pointer' }"
-                tabindex="0"
-                @keyup.enter="navBack"
-                @click="navBack"
-            >
-                {{projectNameLocal}}
-            </h1>
-        </div>
-        <div class="d-flex flex-row flex-wrap w-100">
-            <div class="d-flex flex-column flex-grow-1 px-2">
-                <h2 class="mb-2">Settings</h2>
-                <div class="d-flex flex-row">
-                    <v-text-field
-                        label="Project Name"
-                        v-model="projectNameLocal"
-                    ></v-text-field>
-                </div>
-                <h3 class="mb-2">Connections</h3>
-                <data-provider-row
-                    v-for="(dataProviderLink, i) in currentProject.dataProviderLinks"
-                    :key="i"
-                    ref="dataProviderLinks"
-                    :linkId="dataProviderLink.id"
-                    :linkTypeId="dataProviderLink.dataProvider"
-                    :linkIdentifier="dataProviderLink.identifier"
-                    @remove="removeDataProvider"
-                    @update="updateDataProvider"
-                ></data-provider-row>
-                <div class="d-flex flex-row justify-center">
-                    <add-data-provider-row-btn
-                        @save="addDataProvider"
-                    ></add-data-provider-row-btn>
-                </div>
-                <v-divider class="my-2"></v-divider>
-                <div class="d-flex flex-row">
-                    <v-btn
-                        title="Save Project"
-                        @click="saveProject"
-                    >
-                        Save
-                    </v-btn>
-                    <v-btn
-                        title="Reset Changes"
-                        @click="resetChanges"
-                    >
-                        Reset
-                    </v-btn>
-                </div>
+    <div class="d-flex flex-row w-100 align-start">
+        <div
+            class="d-flex flex-column w-100 mx-8"
+            :style="{ maxWidth: '80em' }"
+        >
+            <div class="d-flex flex-row align-center mb-2">
+                <v-icon
+                    :style="{ cursor: 'pointer' }"
+                    icon="mdi-chevron-left"
+                    title="Back to Projects"
+                    tabindex="0"
+                    @keyup.enter="navBack"
+                    @click="navBack"
+                ></v-icon>
+                <h1
+                    class="display-2 font-weight-bold"
+                    :style="{ cursor: 'pointer' }"
+                    tabindex="0"
+                    @keyup.enter="navBack"
+                    @click="navBack"
+                >
+                    {{projectNameLocal}}
+                </h1>
+                <span
+                    class="align-self-end ms-4 pb-2"
+                    :style="{ cursor: 'pointer' }"
+                    tabindex="0"
+                    @keyup.enter="navToDashboard"
+                    @click="navToDashboard"
+                >
+                    Navigate to Dashboard
+                </span>
             </div>
-            <div class="d-flex flex-column flex-grow-1 px-2">
-                <h2 class="mb-2" >Traffic</h2>
-                <p>Right1</p>
-                <p>Right2</p>
+            <h2 class="mb-2">Settings</h2>
+            <div class="d-flex flex-row">
+                <v-text-field
+                    label="Project Name"
+                    v-model="projectNameLocal"
+                ></v-text-field>
+            </div>
+            <h3 class="mb-2">Connections</h3>
+            <data-provider-row
+                v-for="(dataProviderLink, i) in currentProject.dataProviderLinks"
+                :key="i"
+                ref="dataProviderLinks"
+                :linkId="dataProviderLink.id"
+                :linkTypeId="dataProviderLink.dataProvider"
+                :linkIdentifier="dataProviderLink.identifier"
+                @remove="removeDataProvider"
+                @update="updateDataProvider"
+            ></data-provider-row>
+            <div class="d-flex flex-row justify-center">
+                <add-data-provider-row-btn
+                    @save="addDataProvider"
+                ></add-data-provider-row-btn>
+            </div>
+            <v-divider class="my-2"></v-divider>
+            <div class="d-flex flex-row justify-end">
+                <v-btn
+                    class="mx-2"
+                    title="Save Project"
+                    @click="saveProject"
+                >
+                    Save
+                </v-btn>
+                <v-btn
+                    class="mx-2"
+                    title="Reset Changes"
+                    @click="resetChanges"
+                >
+                    Reset
+                </v-btn>
+                <v-btn
+                    class="mx-2"
+                    title="Delete Project"
+                    @click="deleteProjectAndNavBack"
+                    color="error"
+                >
+                    Delete
+                </v-btn>
             </div>
         </div>
-    </v-container>
+    </div>
 </template>
 
 <script>
@@ -101,17 +116,22 @@ export default defineComponent({
     },
     methods: {
         ...mapActions([
+            "deleteProject",
             "setCurrentProject",
             "updateProjectName",
             "addDataProviderLink",
             "updateDataProviderLink",
             "removeDataProviderLink",
+            "saveCurrentProject",
         ]),
         navBack () {
             this.$router.push("/projects");
         },
+        navToDashboard () {
+            alert("todo: nav to dashboard");
+        },
         saveProject () {
-            alert("todo: save")
+            this.saveCurrentProject();
             this.dirty = false;
         },
         addDataProvider (evt) {
@@ -140,6 +160,12 @@ export default defineComponent({
         resetChanges () {
             this.setCurrentProject(this.$route.params.id);
             this.dirty = false;
+        },
+        deleteProjectAndNavBack () {
+            // todo confirmation
+            this.dirty = false;
+            this.deleteProject(this.currentProject.id);
+            this.navBack();
         }
     },
     components: {

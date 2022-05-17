@@ -13,7 +13,7 @@ const items = new Array(20).fill(0).map((val, index) => {
 });
 
 function generateId () {
-    return Date.now();
+    return Date.now().toString();
 }
 
 export function clone (value) {
@@ -43,6 +43,9 @@ export default createStore({
         ]
     },
     getters: {
+        latestProject (state) {
+            return state.projects[state.projects.length - 1].id;
+        }
     },
     mutations: {
         setCurrentProject (state, projectId) {
@@ -76,6 +79,26 @@ export default createStore({
             if (linkIndex > -1) {
                 state.currentProject.dataProviderLinks.splice(linkIndex, 1);
             }
+        },
+        deleteProject (state, projectId) {
+            const projectIndex = state.projects.findIndex((project) => project.id === projectId);
+            if (projectIndex > -1) {
+                state.projects.splice(projectIndex, 1);
+            }
+            state.currentProjectId = null;
+        },
+        addProject (state, data) {
+            state.projects.push({
+                id: generateId(),
+                name: data.name
+            });
+        },
+        saveCurrentProject (state) {
+            const newProjectData = clone(state.currentProject);
+            const projectId = state.projects.findIndex((project) => project.id === state.currentProjectId);
+            if (projectId > -1) {
+                state.projects[projectId] = newProjectData;
+            }
         }
     },
     actions: {
@@ -93,6 +116,15 @@ export default createStore({
         },
         removeDataProviderLink (context, data) {
             context.commit("removeDataProviderLink", data);
+        },
+        deleteProject (context, projectId) {
+            context.commit("deleteProject", projectId);
+        },
+        addProject (context, data) {
+            context.commit("addProject", data);
+        },
+        saveCurrentProject (context) {
+            context.commit("saveCurrentProject", null);
         },
     },
     modules: {
