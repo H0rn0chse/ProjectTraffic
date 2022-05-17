@@ -28,7 +28,7 @@
                         v-model="projectNameLocal"
                     ></v-text-field>
                 </div>
-                <h3 class="mb-2">DataProviders</h3>
+                <h3 class="mb-2">Connections</h3>
                 <data-provider-row
                     v-for="(dataProviderLink, i) in currentProject.dataProviderLinks"
                     :key="i"

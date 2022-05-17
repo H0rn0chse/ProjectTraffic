@@ -13,7 +13,7 @@
     >
         <v-card
             class="d-flex flex-column justify-center"
-            title="Link DataProvider"
+            title="Connect DataProvider"
             min-width="20em"
         >
             <v-select
@@ -32,10 +32,10 @@
                 class="d-flex flex-row justify-end"
             >
                 <v-btn
-                    title="Add DataProvider"
+                    title="Connect DataProvider"
                     @click="addProvider"
                 >
-                    Add
+                    Connect
                 </v-btn>
                 <v-btn
                     title="Cancel"

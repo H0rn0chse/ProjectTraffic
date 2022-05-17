@@ -4,6 +4,7 @@ import LoginView from "./views/LoginView.vue";
 import ProjectListView from "./views/ProjectListView.vue";
 import ProjectView from "./views/ProjectView.vue";
 import SettingsView from "./views/SettingsView.vue";
+import ProviderListView from "./views/ProviderListView.vue";
 
 const routes = [
     {
@@ -20,6 +21,11 @@ const routes = [
         path: "/project/:id",
         name: "project",
         component: ProjectView,
+    },
+    {
+        path: "/providers",
+        name: "providers",
+        component: ProviderListView,
     },
     {
         path: "/settings",

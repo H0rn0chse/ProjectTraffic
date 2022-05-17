@@ -15,7 +15,7 @@
         <v-btn
             class="ms-2"
             :style="{ marginBottom: '38px' }"
-            title="Remove DataProvider"
+            title="Remove DataProvider Connection"
             icon="mdi-trash-can"
             @click="deleteItem"
         ></v-btn>

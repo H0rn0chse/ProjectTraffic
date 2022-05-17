@@ -53,6 +53,12 @@ export default defineComponent({
                 handler: "navTo",
                 arg: "/projects",
             }, {
+                title: "DataProviders",
+                icon: "mdi-connection",
+                value: "providers",
+                handler: "navTo",
+                arg: "/providers",
+            }, {
                 title: "Settings",
                 icon: "mdi-cog",
                 value: "settings",
