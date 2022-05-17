@@ -51,7 +51,7 @@ export default defineComponent({
     name: "ProjectListView",
     computed: {
         ...mapState({
-            items: "tmp"
+            items: "projects"
         })
     },
     methods: {
