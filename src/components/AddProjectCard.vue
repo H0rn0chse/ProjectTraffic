@@ -66,8 +66,7 @@ export default defineComponent({
     },
     methods: {
         showDialog () {
-            this.identifier = "";
-            this.typeId = "";
+            this.name = "";
             this.show = true;
         },
         addProject () {
