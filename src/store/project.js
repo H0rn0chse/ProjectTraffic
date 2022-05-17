@@ -3,7 +3,7 @@ import { generateId, clone } from "./shared";
 const items = new Array(20).fill(0).map((val, index) => {
     return {
         id: index.toString(),
-        name: `Card No${index}`,
+        name: `Project No${index}`,
         dataProviderLinks: [{
             id: "0001",
             dataProvider: "0001",

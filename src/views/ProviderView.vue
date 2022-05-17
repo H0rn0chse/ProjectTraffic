@@ -22,15 +22,6 @@
                 >
                     {{providerNameLocal}}
                 </h1>
-                <span
-                    class="align-self-end ms-4 pb-2"
-                    :style="{ cursor: 'pointer' }"
-                    tabindex="0"
-                    @keyup.enter="navToDashboard"
-                    @click="navToDashboard"
-                >
-                    Navigate to Dashboard
-                </span>
             </div>
             <h2 class="mb-2">Settings</h2>
             <div class="d-flex flex-row">
@@ -122,9 +113,6 @@ export default defineComponent({
         ]),
         navBack () {
             this.$router.push("/providers");
-        },
-        navToDashboard () {
-            alert("todo: nav to dashboard");
         },
         saveProvider () {
             this.saveCurrentProvider();

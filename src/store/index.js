@@ -1,4 +1,5 @@
 import { createStore } from "vuex";
+import data from "./data";
 import project from "./project";
 import provider from "./provider";
 
@@ -12,6 +13,7 @@ export default createStore({
     actions: {
     },
     modules: {
+        data,
         project,
         provider,
     },
