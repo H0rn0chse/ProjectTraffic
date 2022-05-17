@@ -1,41 +1,46 @@
 <template>
-    <v-btn
-        class="ms-2"
-        :style="{ marginBottom: '38px' }"
-        title="Add DataProvider"
-        icon="mdi-plus"
+    <v-card
+        class="ma-3 justify-center align-center d-flex"
+        min-height="52px"
+        width="200px"
+        tabindex="0"
+        contained-text
         @click="showDialog"
-    ></v-btn>
-    <!-- todo: remove workaround -->
+        @keyup.enter="showDialog"
+    >
+        <v-icon
+            title="Add Provider"
+            icon="mdi-plus"
+        ></v-icon>
+    </v-card>
     <v-dialog
-        :style="{ zIndex: 2000 }"
         v-model="show"
     >
         <v-card
             class="d-flex flex-column justify-center"
-            title="Connect DataProvider"
+            title="Add new Provider"
             min-width="20em"
         >
-            <v-select
-                class="mx-3"
-                label="DataProvider"
-                :items="dataProviders"
-                v-model="typeId"
-            ></v-select>
             <v-text-field
                 class="mx-3"
                 :style="{ minWidth: '8em' }"
-                label="Identifier"
-                v-model="identifier"
+                label="ProviderName"
+                v-model="name"
             ></v-text-field>
+            <v-select
+                class="mx-3"
+                label="DataProviderType"
+                :items="supportedDataProviderTypes"
+                v-model="type"
+            ></v-select>
             <v-card-actions
                 class="d-flex flex-row justify-end"
             >
                 <v-btn
-                    title="Connect DataProvider"
+                    title="Add Provider"
                     @click="addProvider"
                 >
-                    Connect
+                    Add
                 </v-btn>
                 <v-btn
                     title="Cancel"
@@ -54,7 +59,7 @@ import { mapState } from "vuex";
 
 // todo: data validation
 export default defineComponent({
-    name: "AddDataProviderRowBtn",
+    name: "AddProviderCard",
     props: {
     },
     emits: [
@@ -62,27 +67,23 @@ export default defineComponent({
     ],
     data: () => ({
         show: false,
-        identifier: "",
-        typeId: "",
+        name: "",
+        type: "",
     }),
     computed: {
-        ...mapState("provider", {
-            dataProviders: (state) => {
-                return state.dataProviders.map((provider) => {
-                    return { value: provider.id, title: provider.name };
-                });
-            },
-        })
+        ...mapState("provider", [
+            "supportedDataProviderTypes",
+        ]),
     },
     methods: {
         showDialog () {
-            this.identifier = "";
-            this.typeId = "";
+            this.name = "";
+            this.type = "";
             this.show = true;
         },
         addProvider () {
             this.show = false;
-            this.$emit("save", { typeId: this.typeId, identifier: this.identifier });
+            this.$emit("save", { name: this.name, type: this.type });
         },
     }
 });

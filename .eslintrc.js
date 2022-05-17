@@ -23,6 +23,6 @@ module.exports = {
         semi: ["warn", "always"],
         "no-warning-comments": "warn",
         "no-unused-vars": "warn",
-        "prefer-destructuring": "warn",
+        "prefer-destructuring": "off",
     },
 };

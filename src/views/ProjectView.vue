@@ -101,7 +101,7 @@ export default defineComponent({
         dirty: false,
     }),
     computed: {
-        ...mapState([
+        ...mapState("project", [
             "currentProject",
         ]),
         projectNameLocal: {
@@ -115,7 +115,7 @@ export default defineComponent({
         }
     },
     methods: {
-        ...mapActions([
+        ...mapActions("project", [
             "deleteProject",
             "setCurrentProject",
             "updateProjectName",

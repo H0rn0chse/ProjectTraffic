@@ -42,15 +42,15 @@ import AddProjectCard from "../components/AddProjectCard.vue";
 export default defineComponent({
     name: "ProjectListView",
     computed: {
-        ...mapState({
+        ...mapState("project", {
             items: "projects"
         }),
-        ...mapGetters([
+        ...mapGetters("project", [
             "latestProject"
         ]),
     },
     methods: {
-        ...mapActions([
+        ...mapActions("project", [
             "setCurrentProject",
             "addProject",
         ]),

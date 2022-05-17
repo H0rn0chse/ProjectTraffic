@@ -41,7 +41,7 @@ export default defineComponent({
     data: () => ({
     }),
     computed: {
-        ...mapState({
+        ...mapState("provider", {
             dataProviders: (state) => {
                 return state.dataProviders.map((provider) => {
                     return { value: provider.id, title: provider.name };

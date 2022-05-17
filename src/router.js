@@ -3,8 +3,9 @@ import HomeView from "./views/HomeView.vue";
 import LoginView from "./views/LoginView.vue";
 import ProjectListView from "./views/ProjectListView.vue";
 import ProjectView from "./views/ProjectView.vue";
-import SettingsView from "./views/SettingsView.vue";
 import ProviderListView from "./views/ProviderListView.vue";
+import ProviderView from "./views/ProviderView.vue";
+import SettingsView from "./views/SettingsView.vue";
 
 const routes = [
     {
@@ -26,6 +27,11 @@ const routes = [
         path: "/providers",
         name: "providers",
         component: ProviderListView,
+    },
+    {
+        path: "/provider/:id",
+        name: "provider",
+        component: ProviderView,
     },
     {
         path: "/settings",
