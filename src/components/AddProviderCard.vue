@@ -13,7 +13,9 @@
             icon="mdi-plus"
         ></v-icon>
     </v-card>
+    <!-- todo: remove workaround -->
     <v-dialog
+        :style="{ zIndex: 2000 }"
         v-model="show"
     >
         <v-card
