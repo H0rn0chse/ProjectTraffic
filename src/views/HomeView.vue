@@ -4,6 +4,33 @@
             <h1 class="display-2 font-weight-bold mb-3">
                 Project Traffic Summary
             </h1>
+            <div class="d-flex flex-row w-100">
+                <v-btn
+                    title="All (Clear all preferences)"
+                >
+                    All
+                </v-btn>
+            </div>
+            <div class="d-flex flex-row w-100">
+                <v-radio-group
+                    v-model="groupBy"
+                    inline
+                    label="GroupBy"
+                >
+                    <v-radio
+                        label="None"
+                        value="none"
+                    ></v-radio>
+                    <v-radio
+                        label="DataProvider"
+                        value="provider"
+                    ></v-radio>
+                    <v-radio
+                        label="Project"
+                        value="project"
+                    ></v-radio>
+                </v-radio-group>
+            </div>
             <bar
                 :chart-options="chartOptions"
                 :chart-data="chartData"
@@ -19,30 +46,40 @@
 <script>
 import { defineComponent } from "vue";
 import { Bar } from "vue-chartjs";
+import { mapGetters } from "vuex";
+import { DATASET_TYPES } from "../store/data";
 
 export default defineComponent({
     name: "HomeView",
     data: () => ({
-        chartData: {
-            labels: ["January", "February", "March"],
-            datasets: [{
-                label: "Dataset 1",
-                data: [40, 20, 12]
-            }]
-        },
+        groupBy: "none",
         chartOptions: {
-            responsive: true,
+            responsive: false,
             plugins: {
                 legend: {
-                    position: "top",
+                    display: false,
                 },
-                title: {
-                    display: true,
-                    text: "Chart.js Bar Chart"
-                }
+                tooltip: {
+                    callbacks: {
+                        title: (tooltipItems) => {
+                            return `${tooltipItems[0].dataset.stack}: ${tooltipItems[0].label}`;
+                        },
+                        label: (tooltipItem) => {
+                            if (tooltipItem.dataset.custom.type === DATASET_TYPES.Unique) {
+                                return `Unique: ${tooltipItem.raw}`;
+                            }
+                            return `Views: ${tooltipItem.raw + tooltipItem.dataset.custom.offset[tooltipItem.dataIndex]}`;
+                        },
+                    }
+                },
             }
         }
     }),
+    computed: {
+        ...mapGetters("data", {
+            chartData: "filteredAndGroupedData",
+        })
+    },
     components: { Bar },
 });
 </script>

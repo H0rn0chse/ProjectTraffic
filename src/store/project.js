@@ -1,16 +1,30 @@
 import { generateId, clone } from "./shared";
 
-const items = new Array(20).fill(0).map((val, index) => {
-    return {
-        id: index.toString(),
-        name: `Project No${index}`,
-        dataProviderLinks: [{
-            id: "0001",
-            dataProvider: "0001",
-            identifier: "Dark Mode Toggle"
-        }]
-    };
-});
+const items = [{
+    id: "project-0001",
+    name: "DarkModeToggle",
+    dataProviderLinks: [{
+        id: "link-0001",
+        dataProvider: "provider-0001",
+        identifier: "H0rn0chse/dark-mode-toggle"
+    }, {
+        id: "link-0002",
+        dataProvider: "provider-0002",
+        identifier: "Dark Mode Toggle"
+    }]
+}, {
+    id: "project-0002",
+    name: "NightSky",
+    dataProviderLinks: [{
+        id: "link-0003",
+        dataProvider: "provider-0001",
+        identifier: "H0rn0chse/NightSky"
+    }, {
+        id: "link-0004",
+        dataProvider: "provider-0002",
+        identifier: "NightSky"
+    }]
+}];
 
 const initialState = () => ({
     currentProject: {},
@@ -64,7 +78,8 @@ const mutations = {
     addProject (state, data) {
         state.projects.push({
             id: generateId(),
-            name: data.name
+            name: data.name,
+            dataProviderLinks: [],
         });
     },
     saveCurrentProject (state) {

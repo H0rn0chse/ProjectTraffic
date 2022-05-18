@@ -3,12 +3,12 @@ import { generateId, clone } from "./shared";
 const initialState = () => ({
     currentProvider: {},
     dataProviders: [{
-        id: "0001",
-        name: "GitHub_H0rn0chse",
+        id: "provider-0001",
+        name: "GitHub/H0rn0chse",
         type: "GitHub"
     }, {
-        id: "0002",
-        name: "Umami_H0rn0chse",
+        id: "provider-0002",
+        name: "Umami/H0rn0chse",
         type: "Umami"
     }],
     supportedDataProviderTypes: [
