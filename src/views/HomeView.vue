@@ -48,6 +48,7 @@ import { defineComponent } from "vue";
 import { Bar } from "vue-chartjs";
 import { mapGetters } from "vuex";
 import { DATASET_TYPES } from "../store/data";
+import { lighten } from "../utils/colors";
 
 export default defineComponent({
     name: "HomeView",
@@ -72,6 +73,14 @@ export default defineComponent({
                         },
                     }
                 },
+                autocolors: {
+                    customize (context) {
+                        const colors = context.colors;
+                        return {
+                            background: lighten(colors.background, 0.2),
+                        };
+                    },
+                }
             }
         }
     }),

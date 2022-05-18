@@ -24,5 +24,7 @@ module.exports = {
         "no-warning-comments": "warn",
         "no-unused-vars": "warn",
         "prefer-destructuring": "off",
+        "one-var": ["error", { initialized: "never" }],
+        "one-var-declaration-per-line": ["error", "initializations"],
     },
 };
