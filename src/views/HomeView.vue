@@ -83,12 +83,13 @@
                 </v-expansion-panel>
             </v-expansion-panels>
             <bar
+                ref="chart"
                 :chart-options="chartOptions"
                 :chart-data="chartData"
                 chart-id="bar-chart"
                 dataset-id-key="labels"
-                width.number="400"
-                height.number="400"
+                :width="width"
+                :height="height"
             ></bar>
         </div>
     </div>
@@ -104,6 +105,8 @@ import { lighten } from "../utils/colors";
 export default defineComponent({
     name: "HomeView",
     data: () => ({
+        width: 600,
+        height: 400,
         groupBy: "none",
         filteredProviderTypes: [],
         filteredProviders: [],
@@ -160,10 +163,14 @@ export default defineComponent({
     },
     methods: {
         resetFilter () {
-            alert("todo: resetFilter");
+            this.groupBy = "none";
+            this.filteredProviderTypes = [];
+            this.filteredProviders = [];
+            this.filteredProjects = [];
         },
         redrawChart () {
-            alert("todo: redrawChart");
+            this.$refs.chart.chart.reset();
+            this.$refs.chart.chart.update();
         }
     },
     components: { Bar },
