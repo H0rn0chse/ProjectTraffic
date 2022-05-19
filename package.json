@@ -46,5 +46,17 @@
     "vuetify-loader": "^2.0.0-alpha.0"
   },
   "license": "MIT",
-  "repository": "https://github.com/H0rn0chse/ProjectTraffic"
+  "repository": "https://github.com/H0rn0chse/ProjectTraffic",
+  "vue": {
+    "transpileDependencies": true,
+    "pluginOptions": {
+      "vuetify": {}
+    },
+    "pages": {
+      "index": {
+        "entry": "src/main.js",
+        "title": "ProjectTraffic"
+      }
+    }
+  }
 }
