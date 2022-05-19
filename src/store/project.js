@@ -34,7 +34,30 @@ const initialState = () => ({
 const getters = {
     latestProject (state) {
         return state.projects[state.projects.length - 1].id;
-    }
+    },
+    projectMap (state) {
+        return state.projects.reduce((map, project) => {
+            map[project.id] = {
+                name: project.name,
+            };
+            return map;
+        }, {});
+    },
+    linkMap (state, localGetters, rootState, rootGetters) {
+        const providerMap = rootGetters["provider/providerMap"];
+        return state.projects.reduce((map, project) => {
+            project.dataProviderLinks.forEach((link) => {
+                map[link.id] = {
+                    project: project.id,
+                    projectName: project.name,
+                    dataProvider: link.dataProvider,
+                    dataProviderName: providerMap[link.dataProvider].name,
+                    providerType: providerMap[link.dataProvider].type,
+                };
+            });
+            return map;
+        }, {});
+    },
 };
 
 const mutations = {

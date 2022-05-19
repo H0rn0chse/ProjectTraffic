@@ -33,16 +33,10 @@
                                 label="GroupBy"
                             >
                                 <v-radio
-                                    label="None"
-                                    value="none"
-                                ></v-radio>
-                                <v-radio
-                                    label="DataProvider"
-                                    value="provider"
-                                ></v-radio>
-                                <v-radio
-                                    label="Project"
-                                    value="project"
+                                    v-for="(option, i) in groupOptions"
+                                    :key="i"
+                                    :label="option.label"
+                                    :value="option.value"
                                 ></v-radio>
                             </v-radio-group>
                         </div>
@@ -98,8 +92,9 @@
 <script>
 import { defineComponent } from "vue";
 import { Bar } from "vue-chartjs";
-import { mapGetters, mapState } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 import { DATASET_TYPES } from "../store/data";
+import { clone } from "../store/shared";
 import { lighten } from "../utils/colors";
 
 export default defineComponent({
@@ -107,10 +102,6 @@ export default defineComponent({
     data: () => ({
         width: 600,
         height: 400,
-        groupBy: "none",
-        filteredProviderTypes: [],
-        filteredProviders: [],
-        filteredProjects: [],
         chartOptions: {
             responsive: false,
             plugins: {
@@ -145,6 +136,13 @@ export default defineComponent({
         ...mapGetters("data", {
             chartData: "filteredAndGroupedData",
         }),
+        ...mapState("data", {
+            filter: "filter",
+            group: "group",
+            groupOptions: (state) => {
+                return Object.values(state.groupOptions);
+            }
+        }),
         ...mapState("provider", {
             providers: (state) => {
                 return state.dataProviders.map((provider) => {
@@ -158,10 +156,56 @@ export default defineComponent({
                 return state.projects.map((project) => {
                     return { value: project.id, title: project.name };
                 });
-            },
+            }
         }),
+        groupBy: {
+            get () {
+                return this.group.by;
+            },
+            set (newValue) {
+                this.updateGroupWithProperty("by", newValue);
+            }
+        },
+        filteredProviderTypes: {
+            get () {
+                return this.filter.providerTypes;
+            },
+            set (newValue) {
+                this.updateFilterWithProperty("providerTypes", newValue);
+            }
+        },
+        filteredProviders: {
+            get () {
+                return this.filter.providers;
+            },
+            set (newValue) {
+                this.updateFilterWithProperty("providers", newValue);
+            }
+        },
+        filteredProjects: {
+            get () {
+                return this.filter.projects;
+            },
+            set (newValue) {
+                this.updateFilterWithProperty("projects", newValue);
+            }
+        },
     },
     methods: {
+        ...mapActions("data", [
+            "updateFilter",
+            "updateGroup",
+        ]),
+        updateFilterWithProperty (propName, propValue) {
+            const newFilter = clone(this.filter);
+            newFilter[propName] = propValue;
+            this.updateFilter(newFilter);
+        },
+        updateGroupWithProperty (propName, propValue) {
+            const newGroup = clone(this.group);
+            newGroup[propName] = propValue;
+            this.updateGroup(newGroup);
+        },
         resetFilter () {
             this.groupBy = "none";
             this.filteredProviderTypes = [];

@@ -20,7 +20,16 @@ const initialState = () => ({
 const getters = {
     latestProvider (state) {
         return state.dataProviders[state.dataProviders.length - 1].id;
-    }
+    },
+    providerMap (state) {
+        return state.dataProviders.reduce((map, provider) => {
+            map[provider.id] = {
+                type: provider.type,
+                name: provider.name,
+            };
+            return map;
+        }, {});
+    },
 };
 
 const mutations = {

@@ -20,11 +20,11 @@ module.exports = {
         "max-len": "off",
         "func-names": "off",
         "arrow-body-style": "off",
-        semi: ["warn", "always"],
         "no-warning-comments": "warn",
         "no-unused-vars": "warn",
         "prefer-destructuring": "off",
         "one-var": ["error", { initialized: "never" }],
         "one-var-declaration-per-line": ["error", "initializations"],
+        "no-param-reassign": "warn",
     },
 };
