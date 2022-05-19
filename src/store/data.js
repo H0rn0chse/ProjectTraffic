@@ -7,7 +7,7 @@ export const DATASET_TYPES = Object.freeze({
     Unique: "unique"
 });
 
-const GROUP_OPTIONS = Object.freeze({
+export const GROUP_OPTIONS = Object.freeze({
     None: {
         label: "None",
         value: "none"
@@ -21,24 +21,6 @@ const GROUP_OPTIONS = Object.freeze({
         value: "project"
     },
 });
-
-function generateNumber (min, max) {
-    return Math.round(min + Math.random() * (max - min));
-}
-
-// todo: remove
-function generateViews (minUniques, maxUniques, maxCount) {
-    return new Array(14).fill(0).map((val, index) => {
-        const date = `2022-05-${(index + 1).toString().padStart(2, "0")}`;
-        const unique = generateNumber(minUniques, maxUniques);
-        const count = generateNumber(unique, maxCount);
-        return {
-            date,
-            unique,
-            count
-        };
-    });
-}
 
 function getLabels () {
     const now = Date.now();
@@ -92,25 +74,6 @@ function getDatasets (links, labels, datasetLabel) {
         },
     }];
 }
-
-const cache = {
-    "link-0001": {
-        views: generateViews(5, 20, 100),
-        referrer: ["Google"]
-    },
-    "link-0002": {
-        views: generateViews(3, 10, 40),
-        referrer: ["github.com", "webcomponents.org"]
-    },
-    "link-0003": {
-        views: generateViews(5, 10, 50),
-        referrer: ["Google", "stackoverflow.com"]
-    },
-    "link-0004": {
-        views: generateViews(1, 5, 15),
-        referrer: ["github.com", "npmjs.com"]
-    }
-};
 
 const initialState = () => ({
     currentFilter: {},
@@ -230,7 +193,6 @@ const getters = {
             labels: formatLabels(labels),
             datasets: datasetCollection
         };
-        console.log(result);
         return result;
     }
 };

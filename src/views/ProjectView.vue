@@ -90,6 +90,7 @@ import { mapActions, mapGetters, mapState } from "vuex";
 
 import DataProviderRow from "../components/DataProviderRow.vue";
 import AddDataProviderRowBtn from "../components/AddDataProviderRowBtn.vue";
+import { GROUP_OPTIONS } from "../store/data.js";
 
 export default defineComponent({
     name: "ProjectView",
@@ -132,11 +133,22 @@ export default defineComponent({
             "removeDataProviderLink",
             "saveCurrentProject",
         ]),
+        ...mapActions("data", [
+            "updateFilter",
+            "updateGroup",
+        ]),
         navBack () {
             this.$router.push("/projects");
         },
         navToDashboard () {
-            alert("todo: nav to dashboard");
+            const filter = {
+                providerTypes: [],
+                providers: [],
+                projects: [this.currentProject.id],
+            };
+            this.updateFilter(filter);
+            this.updateGroup({ by: GROUP_OPTIONS.None.value });
+            this.$router.push("/");
         },
         saveProject () {
             this.saveCurrentProject();
