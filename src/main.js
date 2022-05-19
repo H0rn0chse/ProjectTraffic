@@ -19,7 +19,6 @@ const projectPromise = fetch("/state/projects")
         return response.json();
     })
     .then((projects) => {
-        console.log(projects);
         projects.forEach((project) => {
             store.dispatch("project/addProject", project);
         });
@@ -33,7 +32,6 @@ const providerPromise = fetch("/state/dataProviders")
         return response.json();
     })
     .then((dataProviders) => {
-        console.log(dataProviders);
         dataProviders.forEach((provider) => {
             store.dispatch("provider/addProvider", provider);
         });
@@ -47,7 +45,6 @@ fetch("/config/providerTypes")
         return response.json();
     })
     .then((types) => {
-        console.log(types);
         store.commit("provider/setSupportedProviderTypes", types);
     })
     .catch((err) => {
@@ -71,7 +68,6 @@ Promise.all([
     });
     return Promise.all(promises);
 }).then((results) => {
-    console.log(results);
     const data = results.reduce((map, result) => {
         map[result.id] = result.data;
         return map;

@@ -1,4 +1,4 @@
-import { generateId, clone } from "./shared";
+import { clone } from "./shared";
 
 const oneDay = 86400000;
 
