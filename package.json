@@ -3,17 +3,22 @@
   "version": "1.0.0",
   "private": true,
   "author": "H0rn0chse <h0rn0chse@gmx.de>",
+  "type": "module",
   "scripts": {
+    "start": "node server/index.js",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@h0rn0chse/socket-server": "^1.1.4",
     "@mdi/font": "5.9.55",
+    "@octokit/core": "^3.6.0",
     "chart.js": "^3.7.1",
     "chartjs-plugin-autocolors": "^0.0.5",
     "core-js": "^3.8.3",
     "dotenv": "^16.0.1",
+    "node-fetch": "^3.2.4",
     "roboto-fontface": "*",
     "vue": "^3.2.13",
     "vue-chartjs": "^4.1.0",

@@ -10,7 +10,7 @@ const items = [{
     }, {
         id: "link-0002",
         dataProvider: "provider-0002",
-        identifier: "Dark Mode Toggle"
+        identifier: "1"
     }]
 }, {
     id: "project-0002",
@@ -22,7 +22,7 @@ const items = [{
     }, {
         id: "link-0004",
         dataProvider: "provider-0002",
-        identifier: "NightSky"
+        identifier: "2"
     }]
 }];
 

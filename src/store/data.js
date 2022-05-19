@@ -47,7 +47,7 @@ function formatLabels (labels) {
     return labels.map((label) => {
         const [year, month, day] = label.split("-");
         return `${day}.${month}`;
-    })
+    });
 }
 
 function getDatasets (links, labels, datasetLabel) {

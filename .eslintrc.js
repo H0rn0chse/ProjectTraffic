@@ -26,5 +26,7 @@ module.exports = {
         "one-var": ["error", { initialized: "never" }],
         "one-var-declaration-per-line": ["error", "initializations"],
         "no-param-reassign": "warn",
+        "import/extensions": "off",
+        "no-underscore-dangle": ["error", { "enforceInClassFields": false, "enforceInMethodNames": false }],
     },
 };
