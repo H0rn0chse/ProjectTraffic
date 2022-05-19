@@ -73,9 +73,13 @@ export default defineComponent({
         type: "",
     }),
     computed: {
-        ...mapState("provider", [
-            "supportedDataProviderTypes",
-        ]),
+        ...mapState("provider", {
+            supportedDataProviderTypes: (state) => {
+                return state.supportedDataProviderTypes.map((provider) => {
+                    return { value: provider.id, title: provider.name };
+                });
+            },
+        }),
     },
     methods: {
         showDialog () {

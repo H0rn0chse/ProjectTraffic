@@ -149,7 +149,11 @@ export default defineComponent({
                     return { value: provider.id, title: provider.name };
                 });
             },
-            providerTypes: "supportedDataProviderTypes",
+            providerTypes: (state) => {
+                return state.supportedDataProviderTypes.map((provider) => {
+                    return { value: provider.id, title: provider.name };
+                });
+            },
         }),
         ...mapState("project", {
             projects: (state) => {

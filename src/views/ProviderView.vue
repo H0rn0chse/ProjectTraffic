@@ -80,10 +80,14 @@ export default defineComponent({
         dirty: false,
     }),
     computed: {
-        ...mapState("provider", [
-            "currentProvider",
-            "supportedDataProviderTypes",
-        ]),
+        ...mapState("provider", {
+            currentProvider: "currentProvider",
+            supportedDataProviderTypes: (state) => {
+                return state.supportedDataProviderTypes.map((provider) => {
+                    return { value: provider.id, title: provider.name };
+                });
+            },
+        }),
         providerNameLocal: {
             get () {
                 return this.currentProvider?.name || "";

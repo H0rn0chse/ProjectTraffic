@@ -2,19 +2,8 @@ import { generateId, clone } from "./shared";
 
 const initialState = () => ({
     currentProvider: {},
-    dataProviders: [{
-        id: "provider-0001",
-        name: "GitHub/H0rn0chse",
-        type: "GitHub"
-    }, {
-        id: "provider-0002",
-        name: "Umami/H0rn0chse",
-        type: "Umami"
-    }],
-    supportedDataProviderTypes: [
-        "GitHub",
-        "Umami"
-    ]
+    dataProviders: [],
+    supportedDataProviderTypes: []
 });
 
 const getters = {
@@ -54,7 +43,7 @@ const mutations = {
     },
     addProvider (state, data) {
         state.dataProviders.push({
-            id: generateId(),
+            id: data.id || generateId(),
             name: data.name,
             type: data.type,
         });
@@ -65,6 +54,9 @@ const mutations = {
         if (providerIndex > -1) {
             state.dataProviders[providerIndex] = newProviderData;
         }
+    },
+    setSupportedProviderTypes (state, types) {
+        state.supportedDataProviderTypes = types;
     }
 };
 

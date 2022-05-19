@@ -86,7 +86,7 @@
 
 <script>
 import { defineComponent } from "vue";
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 
 import DataProviderRow from "../components/DataProviderRow.vue";
 import AddDataProviderRowBtn from "../components/AddDataProviderRowBtn.vue";
@@ -94,13 +94,21 @@ import AddDataProviderRowBtn from "../components/AddDataProviderRowBtn.vue";
 export default defineComponent({
     name: "ProjectView",
     mounted () {
-        this.setCurrentProject(this.$route.params.id);
+        const projectId = this.$route.params.id;
+        if (this.projectIds.includes(projectId)) {
+            this.setCurrentProject(this.$route.params.id);
+        } else {
+            this.navBack();
+        }
     },
     data: () => ({
         // todo implement dirty handling
         dirty: false,
     }),
     computed: {
+        ...mapGetters("project", [
+            "projectIds",
+        ]),
         ...mapState("project", [
             "currentProject",
         ]),

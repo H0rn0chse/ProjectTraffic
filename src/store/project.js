@@ -1,37 +1,16 @@
 import { generateId, clone } from "./shared";
 
-const items = [{
-    id: "project-0001",
-    name: "DarkModeToggle",
-    dataProviderLinks: [{
-        id: "link-0001",
-        dataProvider: "provider-0001",
-        identifier: "H0rn0chse/dark-mode-toggle"
-    }, {
-        id: "link-0002",
-        dataProvider: "provider-0002",
-        identifier: "1"
-    }]
-}, {
-    id: "project-0002",
-    name: "NightSky",
-    dataProviderLinks: [{
-        id: "link-0003",
-        dataProvider: "provider-0001",
-        identifier: "H0rn0chse/NightSky"
-    }, {
-        id: "link-0004",
-        dataProvider: "provider-0002",
-        identifier: "2"
-    }]
-}];
-
 const initialState = () => ({
-    currentProject: {},
-    projects: items,
+    currentProject: {
+        dataProviderLinks: []
+    },
+    projects: [],
 });
 
 const getters = {
+    projectIds (state) {
+        return state.projects.map((project) => project.id);
+    },
     latestProject (state) {
         return state.projects[state.projects.length - 1].id;
     },
@@ -51,6 +30,7 @@ const getters = {
                     project: project.id,
                     projectName: project.name,
                     dataProvider: link.dataProvider,
+                    identifier: link.identifier,
                     dataProviderName: providerMap[link.dataProvider].name,
                     providerType: providerMap[link.dataProvider].type,
                 };
@@ -66,7 +46,9 @@ const mutations = {
         if (!currentProject) {
             currentProject = state.projects[0];
         }
-        state.currentProject = clone(currentProject);
+        if (currentProject) {
+            state.currentProject = clone(currentProject);
+        }
     },
     updateProjectName (state, newName) {
         state.currentProject.name = newName;
@@ -100,9 +82,9 @@ const mutations = {
     },
     addProject (state, data) {
         state.projects.push({
-            id: generateId(),
+            id: data.id || generateId(),
             name: data.name,
-            dataProviderLinks: [],
+            dataProviderLinks: data.dataProviderLinks || [],
         });
     },
     saveCurrentProject (state) {

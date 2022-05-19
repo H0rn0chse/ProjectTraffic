@@ -14,24 +14,70 @@ window.store = store;
 
 loadFonts();
 
-const identifier = "H0rn0chse/dark-mode-toggle";
-const options = {
-    method: "GET",
-    headers: {
-        accept: "application/vnd.github.v3+json"
-    }
-};
-/*
-fetch(`https://api.github.com/repos/${identifier}/traffic/views`, options)
+const projectPromise = fetch("/state/projects")
     .then((response) => {
         return response.json();
     })
-    .then((json) => {
-        console.log(json);
+    .then((projects) => {
+        console.log(projects);
+        projects.forEach((project) => {
+            store.dispatch("project/addProject", project);
+        });
     })
     .catch((err) => {
         console.error(err);
-    }); */
+    });
+
+const providerPromise = fetch("/state/dataProviders")
+    .then((response) => {
+        return response.json();
+    })
+    .then((dataProviders) => {
+        console.log(dataProviders);
+        dataProviders.forEach((provider) => {
+            store.dispatch("provider/addProvider", provider);
+        });
+    })
+    .catch((err) => {
+        console.error(err);
+    });
+
+fetch("/config/providerTypes")
+    .then((response) => {
+        return response.json();
+    })
+    .then((types) => {
+        console.log(types);
+        store.commit("provider/setSupportedProviderTypes", types);
+    })
+    .catch((err) => {
+        console.error(err);
+    });
+
+Promise.all([
+    projectPromise,
+    providerPromise
+]).then(() => {
+    const linkMap = store.getters["project/linkMap"];
+    const promises = Object.keys(linkMap).map(async (linkId) => {
+        const link = linkMap[linkId];
+        const url = `/data/traffic?identifier=${encodeURIComponent(link.identifier)}&provider=${encodeURIComponent(link.providerType)}`;
+        const response = await fetch(url);
+        const result = await response.json();
+        return {
+            id: linkId,
+            data: result,
+        };
+    });
+    return Promise.all(promises);
+}).then((results) => {
+    console.log(results);
+    const data = results.reduce((map, result) => {
+        map[result.id] = result.data;
+        return map;
+    }, {});
+    store.commit("data/setData", data);
+});
 
 createApp(App)
     .use(router)

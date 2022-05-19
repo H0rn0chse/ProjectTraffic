@@ -14,8 +14,8 @@ class _Umami {
         this.id = "umami";
         this.name = "Umami";
 
-        this.username = process.env.UMAMI_USER
-        this.password = process.env.UMAMI_PASSWORD
+        this.username = process.env.UMAMI_USER;
+        this.password = process.env.UMAMI_PASSWORD;
 
         this.token = null;
         this.websites = null;
@@ -49,7 +49,7 @@ class _Umami {
         const startAt = Math.round((Date.now() - twoWeeks));
         const endAt = Math.round(Date.now());
         const unit = "day";
-        const timezone = "Europe/Berlin"
+        const timezone = "Europe/Berlin";
 
         const options = {
             method: "GET",
@@ -73,7 +73,7 @@ class _Umami {
             ...data.sessions.map((viewData) => {
                 return {
                     date: viewData.t,
-                    uniques: viewData.y
+                    unique: viewData.y
                 };
             }),
         ];

@@ -1,5 +1,7 @@
 import { generateId, clone } from "./shared";
 
+const oneDay = 86400000;
+
 export const DATASET_TYPES = Object.freeze({
     Count: "count",
     Unique: "unique"
@@ -24,6 +26,7 @@ function generateNumber (min, max) {
     return Math.round(min + Math.random() * (max - min));
 }
 
+// todo: remove
 function generateViews (minUniques, maxUniques, maxCount) {
     return new Array(14).fill(0).map((val, index) => {
         const date = `2022-05-${(index + 1).toString().padStart(2, "0")}`;
@@ -38,9 +41,14 @@ function generateViews (minUniques, maxUniques, maxCount) {
 }
 
 function getLabels () {
+    const now = Date.now();
+
     return new Array(14).fill(0).map((val, index) => {
-        return `2022-05-${(index + 1).toString().padStart(2, "0")}`;
-    });
+        const date = new Date(now - oneDay * index);
+        const month = (date.getMonth() + 1).toString().padStart(2, "0");
+        const day = date.getDate().toString().padStart(2, "0");
+        return `${date.getFullYear()}-${month}-${day}`;
+    }).reverse();
 }
 
 function formatLabels (labels) {
@@ -62,8 +70,8 @@ function getDatasets (links, labels, datasetLabel) {
     links.forEach((link) => {
         link.views.forEach((viewData) => {
             if (labels.includes(viewData.date)) {
-                dataCount[viewData.date] += viewData.count - viewData.unique;
-                dataUnique[viewData.date] += viewData.unique;
+                dataCount[viewData.date] += (viewData.count || 0) - (viewData.unique || 0);
+                dataUnique[viewData.date] += (viewData.unique || 0);
             }
         });
     });
@@ -106,7 +114,7 @@ const cache = {
 
 const initialState = () => ({
     currentFilter: {},
-    data: cache,
+    data: {},
     group: {
         by: "none"
     },
@@ -233,6 +241,9 @@ const mutations = {
     },
     updateGroup (state, newGroup) {
         state.group = newGroup;
+    },
+    setData (state, data) {
+        state.data = data;
     },
 };
 

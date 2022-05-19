@@ -17,8 +17,8 @@ class _Github {
 
     static _formatDate (timestamp) {
         const date = new Date(timestamp);
-        const month = (date.getMonth() + 1).toString().padStart(2, "0")
-        const day = date.getDate().toString().padStart(2, "0")
+        const month = (date.getMonth() + 1).toString().padStart(2, "0");
+        const day = date.getDate().toString().padStart(2, "0");
         return `${date.getFullYear()}-${month}-${day}`;
     }
 
@@ -28,10 +28,10 @@ class _Github {
             return response.data.views.map((viewData) => {
                 return {
                     date: _Github._formatDate(viewData.timestamp),
-                    uniques: viewData.uniques,
+                    unique: viewData.uniques,
                     count: viewData.count
-                }
-            })
+                };
+            });
         } catch (err) {
             return [];
         }
@@ -44,8 +44,8 @@ class _Github {
                 return {
                     referrer: referrerData.referrer,
                     count: referrerData.count,
-                }
-            })
+                };
+            });
         } catch (err) {
             return [];
         }
