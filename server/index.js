@@ -77,6 +77,62 @@ registerXhrHandler("GET", "/state/projects", (req, res, token) => {
             dataProvider: "provider-0002",
             identifier: "2"
         }]
+    }, {
+        id: "project-0003",
+        name: "OverwatchWebApp",
+        dataProviderLinks: [{
+            id: "link-0005",
+            dataProvider: "provider-0001",
+            identifier: "H0rn0chse/OverwatchWebApp"
+        }, {
+            id: "link-0006",
+            dataProvider: "provider-0002",
+            identifier: "3"
+        }]
+    }, {
+        id: "project-0004",
+        name: "Project Overview",
+        dataProviderLinks: [{
+            id: "link-0007",
+            dataProvider: "provider-0001",
+            identifier: "H0rn0chse/project-overview"
+        }, {
+            id: "link-0008",
+            dataProvider: "provider-0002",
+            identifier: "4"
+        }]
+    }, {
+        id: "project-0005",
+        name: "SpriteBuilder",
+        dataProviderLinks: [{
+            id: "link-0009",
+            dataProvider: "provider-0001",
+            identifier: "H0rn0chse/SpriteBuilder"
+        }, {
+            id: "link-0010",
+            dataProvider: "provider-0002",
+            identifier: "8"
+        }]
+    }, {
+        id: "project-0006",
+        name: "GifBuilder",
+        dataProviderLinks: [{
+            id: "link-0011",
+            dataProvider: "provider-0001",
+            identifier: "H0rn0chse/GifBuilder"
+        }, {
+            id: "link-0012",
+            dataProvider: "provider-0002",
+            identifier: "6"
+        }]
+    }, {
+        id: "project-0007",
+        name: "socket-server",
+        dataProviderLinks: [{
+            id: "link-0013",
+            dataProvider: "provider-0001",
+            identifier: "H0rn0chse/socket-server"
+        }]
     }];
     res.status(200).json(body);
 });
