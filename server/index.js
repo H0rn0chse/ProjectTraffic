@@ -7,8 +7,6 @@ implementations[Umami.id] = Umami;
 implementations[Github.id] = Github;
 
 startServer({
-    host: "localhost",
-    port: 8080,
     publicPaths: [["/dist", "/"]],
 });
 
