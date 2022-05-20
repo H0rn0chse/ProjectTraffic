@@ -4,96 +4,114 @@
             <h1 class="display-2 font-weight-bold mb-3">
                 Project Traffic Summary
             </h1>
-            <div class="d-flex flex-row w-100 mb-2">
-                <v-btn
-                    class="me-2"
-                    title="Reset Filter and Grouping"
-                    @click="resetFilter"
+            <div
+                :style="{justifyContent: 'space-evenly'}"
+                class="d-flex flex-row flex-wrap"
+            >
+                <div
+                    :style="{width:'40%', minWidth:'30rem'}"
+                    class="d-flex flex-column"
                 >
-                    Reset Filter and Grouping
-                </v-btn>
-                <v-btn
-                    class="me-2"
-                    title="Redraw Charts"
-                    @click="redrawCharts"
+                    <div class="d-flex flex-row w-100 mb-2">
+                        <v-btn
+                            class="me-2"
+                            title="Reset Filter and Grouping"
+                            @click="resetFilter"
+                        >
+                            Reset Filter and Grouping
+                        </v-btn>
+                        <v-btn
+                            class="me-2"
+                            title="Redraw Charts"
+                            @click="redrawCharts"
+                        >
+                            Redraw Charts
+                        </v-btn>
+                    </div>
+                    <v-expansion-panels
+                        :style="{minWidth:'30rem'}"
+                        class="mb-10 text-body-9"
+                    >
+                        <v-expansion-panel>
+                            <v-expansion-panel-title>
+                                Filter And Group Data
+                            </v-expansion-panel-title>
+                            <v-expansion-panel-text>
+                                <div class="d-flex flex-row w-100">
+                                    <v-radio-group
+                                        v-model="groupBy"
+                                        inline
+                                        label="GroupBy"
+                                    >
+                                        <v-radio
+                                            v-for="(option, i) in groupOptions"
+                                            :key="i"
+                                            :label="option.label"
+                                            :value="option.value"
+                                        ></v-radio>
+                                    </v-radio-group>
+                                </div>
+                                <div class="d-flex flex-row w-100">
+                                    <v-select
+                                        v-model="filteredProviderTypes"
+                                        :items="providerTypes"
+                                        label="Filter by ProviderType"
+                                        multiple
+                                        chips
+                                        persistent-hint
+                                        dense
+                                    ></v-select>
+                                </div>
+                                <div class="d-flex flex-row w-100">
+                                    <v-select
+                                        v-model="filteredProviders"
+                                        :items="providers"
+                                        label="Filter by DataProvider"
+                                        multiple
+                                        chips
+                                        persistent-hint
+                                        dense
+                                    ></v-select>
+                                </div>
+                                <div class="d-flex flex-row w-100">
+                                    <v-select
+                                        v-model="filteredProjects"
+                                        :items="projects"
+                                        label="Filter by Project"
+                                        multiple
+                                        chips
+                                        persistent-hint
+                                        dense
+                                    ></v-select>
+                                </div>
+                            </v-expansion-panel-text>
+                        </v-expansion-panel>
+                    </v-expansion-panels>
+                </div>
+                <div
+                    :style="{width:'40%', minWidth:'600px'}"
+                    class="d-flex flex-column"
                 >
-                    Redraw Charts
-                </v-btn>
+                    <bar
+                        ref="viewChart"
+                        :chart-options="viewChartOptions"
+                        :chart-data="viewData"
+                        chart-id="view-chart"
+                        dataset-id-key="labels"
+                        :width="width"
+                        :height="height"
+                    ></bar>
+                    <bar
+                        ref="referrerChart"
+                        :chart-options="referrerChartOptions"
+                        :chart-data="referrerData"
+                        chart-id="referrer-chart"
+                        dataset-id-key="labels"
+                        :width="width"
+                        :height="height"
+                    ></bar>
+                </div>
             </div>
-            <v-expansion-panels class="mb-10">
-                <v-expansion-panel>
-                    <v-expansion-panel-title>
-                        Filter And Group Data
-                    </v-expansion-panel-title>
-                    <v-expansion-panel-text>
-                        <div class="d-flex flex-row w-100">
-                            <v-radio-group
-                                v-model="groupBy"
-                                inline
-                                label="GroupBy"
-                            >
-                                <v-radio
-                                    v-for="(option, i) in groupOptions"
-                                    :key="i"
-                                    :label="option.label"
-                                    :value="option.value"
-                                ></v-radio>
-                            </v-radio-group>
-                        </div>
-                        <div class="d-flex flex-row w-100">
-                            <v-select
-                                v-model="filteredProviderTypes"
-                                :items="providerTypes"
-                                label="Filter by ProviderType"
-                                multiple
-                                chips
-                                persistent-hint
-                                dense
-                            ></v-select>
-                        </div>
-                        <div class="d-flex flex-row w-100">
-                            <v-select
-                                v-model="filteredProviders"
-                                :items="providers"
-                                label="Filter by DataProvider"
-                                multiple
-                                chips
-                                persistent-hint
-                                dense
-                            ></v-select>
-                        </div>
-                        <div class="d-flex flex-row w-100">
-                            <v-select
-                                v-model="filteredProjects"
-                                :items="projects"
-                                label="Filter by Project"
-                                multiple
-                                chips
-                                persistent-hint
-                                dense
-                            ></v-select>
-                        </div>
-                    </v-expansion-panel-text>
-                </v-expansion-panel>
-            </v-expansion-panels>
-            <bar
-                ref="viewChart"
-                :chart-options="viewChartOptions"
-                :chart-data="viewData"
-                chart-id="view-chart"
-                dataset-id-key="labels"
-                :width="width"
-                :height="height"
-            ></bar>
-            <bar
-                ref="referrerChart"
-                :chart-options="referrerChartOptions"
-                :chart-data="referrerData"
-                chart-id="referrer-chart"
-                dataset-id-key="labels"
-                :width="width"
-                :height="height"
-            ></bar>
         </div>
     </div>
 </template>
