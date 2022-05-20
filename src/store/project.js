@@ -31,8 +31,8 @@ const getters = {
                     projectName: project.name,
                     dataProvider: link.dataProvider,
                     identifier: link.identifier,
-                    dataProviderName: providerMap[link.dataProvider].name,
-                    providerType: providerMap[link.dataProvider].type,
+                    dataProviderName: providerMap[link.dataProvider]?.name,
+                    providerType: providerMap[link.dataProvider]?.type,
                 };
             });
             return map;

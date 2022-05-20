@@ -78,9 +78,18 @@
             </v-expansion-panels>
             <bar
                 ref="chart"
-                :chart-options="chartOptions"
-                :chart-data="chartData"
-                chart-id="bar-chart"
+                :chart-options="viewChartOptions"
+                :chart-data="viewData"
+                chart-id="view-chart"
+                dataset-id-key="labels"
+                :width="width"
+                :height="height"
+            ></bar>
+            <bar
+                ref="chart"
+                :chart-options="referrerChartOptions"
+                :chart-data="referrerData"
+                chart-id="referrer-chart"
                 dataset-id-key="labels"
                 :width="width"
                 :height="height"
@@ -102,7 +111,7 @@ export default defineComponent({
     data: () => ({
         width: 600,
         height: 400,
-        chartOptions: {
+        viewChartOptions: {
             responsive: false,
             plugins: {
                 legend: {
@@ -130,11 +139,42 @@ export default defineComponent({
                     },
                 }
             }
-        }
+        },
+        referrerChartOptions: {
+            responsive: false,
+            plugins: {
+                legend: {
+                    display: false,
+                },
+                // todo: cleanup
+                tooltip2: {
+                    callbacks: {
+                        title: (tooltipItems) => {
+                            return `${tooltipItems[0].dataset.stack}: ${tooltipItems[0].label}`;
+                        },
+                        label: (tooltipItem) => {
+                            if (tooltipItem.dataset.custom.type === DATASET_TYPES.Unique) {
+                                return `Unique: ${tooltipItem.raw}`;
+                            }
+                            return `Views: ${tooltipItem.raw + tooltipItem.dataset.custom.offset[tooltipItem.dataIndex]}`;
+                        },
+                    }
+                },
+                autocolors: {
+                    customize (context) {
+                        const colors = context.colors;
+                        return {
+                            background: lighten(colors.background, 0.2),
+                        };
+                    },
+                }
+            }
+        },
     }),
     computed: {
         ...mapGetters("data", {
-            chartData: "filteredAndGroupedData",
+            viewData: "filteredAndGroupedViewData",
+            referrerData: "filteredAndGroupedReferrerData",
         }),
         ...mapState("data", {
             filter: "filter",

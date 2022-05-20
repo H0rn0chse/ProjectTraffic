@@ -22,7 +22,7 @@ export const GROUP_OPTIONS = Object.freeze({
     },
 });
 
-function getLabels () {
+function getDateLabels () {
     const now = Date.now();
 
     return new Array(14).fill(0).map((val, index) => {
@@ -33,14 +33,14 @@ function getLabels () {
     }).reverse();
 }
 
-function formatLabels (labels) {
+function formatDateLabels (labels) {
     return labels.map((label) => {
         const [year, month, day] = label.split("-");
         return `${day}.${month}`;
     });
 }
 
-function getDatasets (links, labels, datasetLabel) {
+function getViewDatasets (links, labels, datasetLabel) {
     const dataCount = labels.reduce((data, label) => {
         data[label] = 0;
         return data;
@@ -73,6 +73,37 @@ function getDatasets (links, labels, datasetLabel) {
             offset: Object.values(dataUnique),
         },
     }];
+}
+
+function getReferrerDatasets (links, labels, datasetLabel) {
+    const dataCount = labels.reduce((data, label) => {
+        data[label] = 0;
+        return data;
+    }, {});
+    links.forEach((link) => {
+        link.referrer.forEach((referrerData) => {
+            if (labels.includes(referrerData.referrer)) {
+                dataCount[referrerData.referrer] += (referrerData.count || 0);
+            }
+        });
+    });
+    return [{
+        label: datasetLabel,
+        data: Object.values(dataCount)
+    }];
+}
+
+function getReferrerLabels (linkData) {
+    const referrerList = linkData.reduce((referrer, link) => {
+        const linkReferrer = link.referrer.map((referrerData) => {
+            return referrerData.referrer;
+        });
+        return [
+            ...referrer,
+            ...linkReferrer,
+        ];
+    }, []);
+    return [...new Set(referrerList)];
 }
 
 const initialState = () => ({
@@ -164,10 +195,10 @@ const getters = {
             return true;
         });
     },
-    filteredAndGroupedData (state, localGetters) {
+    filteredAndGroupedViewData (state, localGetters) {
         const groups = localGetters.groupedLinks;
         const filteredLinks = localGetters.filteredLinks;
-        const labels = getLabels();
+        const labels = getDateLabels();
 
         const datasetCollection = groups.reduce((datasets, group) => {
             const groupData = group.links
@@ -182,7 +213,7 @@ const getters = {
                 return datasets;
             }
 
-            const groupDatasets = getDatasets(groupData, labels, group.name);
+            const groupDatasets = getViewDatasets(groupData, labels, group.name);
             return [
                 ...datasets,
                 ...groupDatasets
@@ -190,8 +221,60 @@ const getters = {
         }, []);
 
         const result = {
-            labels: formatLabels(labels),
+            labels: formatDateLabels(labels),
             datasets: datasetCollection
+        };
+        return result;
+    },
+    filteredAndGroupedReferrerData (state, localGetters) {
+        const groups = localGetters.groupedLinks;
+        const filteredLinks = localGetters.filteredLinks;
+
+        const groupsData = groups.reduce((data, group) => {
+            const groupData = group.links
+                .filter((linkId) => {
+                    return filteredLinks.includes(linkId);
+                })
+                .map((linkId) => {
+                    return state.data[linkId];
+                });
+
+            if (groupData.length) {
+                data.push(groupData);
+            }
+
+            return data;
+        }, []);
+        const linkData = groupsData.reduce((data, group) => {
+            return [
+                ...data,
+                ...group,
+            ];
+        }, []);
+
+        const labels = getReferrerLabels(linkData);
+        const groupDatasets = groups.reduce((datasets, group) => {
+            const groupData = group.links
+                .filter((linkId) => {
+                    return filteredLinks.includes(linkId);
+                })
+                .map((linkId) => {
+                    return state.data[linkId];
+                });
+
+            if (!groupData.length) {
+                return datasets;
+            }
+
+            return [
+                ...datasets,
+                ...getReferrerDatasets(groupData, labels, group.name)
+            ];
+        }, []);
+
+        const result = {
+            datasets: groupDatasets,
+            labels
         };
         return result;
     }

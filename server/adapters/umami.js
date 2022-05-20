@@ -19,6 +19,7 @@ class _Umami {
 
         this.token = null;
         this.websites = null;
+        this.cache = new Map();
     }
 
     async login () {
@@ -44,6 +45,9 @@ class _Umami {
     }
 
     async fetchViews (identifier) {
+        if (this.cache.has(`${identifier}-views`)) {
+            return this.cache.get(`${identifier}-views`);
+        }
         await this.login();
 
         const startAt = Math.round((Date.now() - twoWeeks));
@@ -63,7 +67,7 @@ class _Umami {
         const response = await fetch(serviceUrl, options);
         const data = await response.json();
 
-        return [
+        const result = [
             ...data.pageviews.map((viewData) => {
                 return {
                     date: viewData.t,
@@ -77,9 +81,14 @@ class _Umami {
                 };
             }),
         ];
+        this.cache.set(`${identifier}-views`, result);
+        return result;
     }
 
     async fetchReferrer (identifier) {
+        if (this.cache.has(`${identifier}-referrer`)) {
+            return this.cache.get(`${identifier}-referrer`);
+        }
         await this.login();
 
         const startAt = 1650405600000 || Math.round((Date.now() - twoWeeks));
@@ -98,16 +107,21 @@ class _Umami {
         const serviceUrl = `${url}api/website/${identifier}/metrics?start_at=${startAt}&end_at=${endAt}&type=${type}`;
         const response = await fetch(serviceUrl, options);
         const data = await response.json();
-        return data
+        const result = data
             .map((referrer) => {
                 return {
-                    referrer: referrer.x,
+                    referrer: referrer.x
+                        .replaceAll("https://", "")
+                        .replaceAll("http://", "")
+                        .replaceAll("www.", ""),
                     count: referrer.y,
                 };
             })
             .filter((referrer) => {
                 return !!referrer.referrer;
             });
+        this.cache.set(`${identifier}-referrer`, result);
+        return result;
     }
 }
 
