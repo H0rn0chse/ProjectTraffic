@@ -110,7 +110,7 @@ class _Umami {
         const result = data
             .map((referrer) => {
                 return {
-                    referrer: referrer.x
+                    referrer: referrer.x.toString()
                         .replaceAll("https://", "")
                         .replaceAll("http://", "")
                         .replaceAll("www.", ""),
