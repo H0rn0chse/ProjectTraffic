@@ -1,4 +1,5 @@
 import { createApp } from "vue";
+import "wc-github-corners";
 // eslint-disable-next-line object-curly-newline
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from "chart.js";
 import autocolors from "chartjs-plugin-autocolors";
