@@ -14,10 +14,10 @@
                 </v-btn>
                 <v-btn
                     class="me-2"
-                    title="Redraw Chart"
-                    @click="redrawChart"
+                    title="Redraw Charts"
+                    @click="redrawCharts"
                 >
-                    Redraw Chart
+                    Redraw Charts
                 </v-btn>
             </div>
             <v-expansion-panels class="mb-10">
@@ -77,7 +77,7 @@
                 </v-expansion-panel>
             </v-expansion-panels>
             <bar
-                ref="chart"
+                ref="viewChart"
                 :chart-options="viewChartOptions"
                 :chart-data="viewData"
                 chart-id="view-chart"
@@ -86,7 +86,7 @@
                 :height="height"
             ></bar>
             <bar
-                ref="chart"
+                ref="referrerChart"
                 :chart-options="referrerChartOptions"
                 :chart-data="referrerData"
                 chart-id="referrer-chart"
@@ -256,9 +256,11 @@ export default defineComponent({
             this.filteredProviders = [];
             this.filteredProjects = [];
         },
-        redrawChart () {
-            this.$refs.chart.chart.reset();
-            this.$refs.chart.chart.update();
+        redrawCharts () {
+            this.$refs.viewChart.chart.reset();
+            this.$refs.viewChart.chart.update();
+            this.$refs.referrerChart.chart.reset();
+            this.$refs.referrerChart.chart.update();
         }
     },
     components: { Bar },
