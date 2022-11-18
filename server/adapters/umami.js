@@ -7,7 +7,7 @@ if (process.env.UMAMI_USER === undefined || process.env.UMAMI_PASSWORD === undef
 }
 
 const twoWeeks = 1209600000;
-const url = "https://h0rn0chse-umami.herokuapp.com/";
+const url = "https://h0rn0chse-umami.up.railway.app";
 
 class _Umami {
     constructor () {
