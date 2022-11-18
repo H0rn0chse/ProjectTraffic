@@ -7,13 +7,13 @@ if (process.env.UMAMI_USER === undefined || process.env.UMAMI_PASSWORD === undef
 }
 
 const twoWeeks = 1209600000;
-const url = "https://h0rn0chse-umami.up.railway.app";
 
 class _Umami {
     constructor () {
         this.id = "umami";
         this.name = "Umami";
 
+        this.url = process.env.UMAMI_URL;
         this.username = process.env.UMAMI_USER;
         this.password = process.env.UMAMI_PASSWORD;
 
@@ -39,7 +39,7 @@ class _Umami {
                 Accept: "application/json"
             }
         };
-        const response = await fetch(`${url}api/auth/login`, options);
+        const response = await fetch(`${this.url}api/auth/login`, options);
         const data = await response.json();
         this.token = data.token;
     }
@@ -63,7 +63,7 @@ class _Umami {
                 Authorization: `Bearer ${this.token}`
             }
         };
-        const serviceUrl = `${url}api/website/${identifier}/pageviews?start_at=${startAt}&end_at=${endAt}&unit=${unit}&tz=${timezone}`;
+        const serviceUrl = `${this.url}api/website/${identifier}/pageviews?start_at=${startAt}&end_at=${endAt}&unit=${unit}&tz=${timezone}`;
         const response = await fetch(serviceUrl, options);
         const data = await response.json();
 
@@ -104,7 +104,7 @@ class _Umami {
             }
         };
 
-        const serviceUrl = `${url}api/website/${identifier}/metrics?start_at=${startAt}&end_at=${endAt}&type=${type}`;
+        const serviceUrl = `${this.url}api/website/${identifier}/metrics?start_at=${startAt}&end_at=${endAt}&type=${type}`;
         const response = await fetch(serviceUrl, options);
         const data = await response.json();
         const result = data
